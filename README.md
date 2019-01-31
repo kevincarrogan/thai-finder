@@ -17,19 +17,21 @@ Find top 10 restaurants by score filtered by cuisine and rating.
 
     $ curl --header "Content-Type: application/json" http://localhost:8000/restaurants/top10/?cuisine=thai&rating=B
 
-    [
-        {
-            "name": "Thai Cottage",
-            "borough": "BROOKLYN",
-            "score": 10
-        },
-        {
-            "name": "AROY DEE THAI KITCHEN",
-            "borough": "BRONX",
-            "score": 9
-        },
-        ...
-    ]
+    {
+        "results": [
+            {
+                "name": "Thai Cottage",
+                "borough": "BROOKLYN",
+                "score": 10
+            },
+            {
+                "name": "AROY DEE THAI KITCHEN",
+                "borough": "BRONX",
+                "score": 9
+            },
+            ...
+        ]
+    }
 
 
 ## Installation

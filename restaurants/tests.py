@@ -74,3 +74,11 @@ class RandomRestaurantTestCase(TestCase):
                     'borough': 'BRONX',
                 },
             )
+
+
+class Top10RestaurantsTestCase(TestCase):
+
+    def test_random_restaurant_endpoint_returns_ok_status_code(self):
+        url = reverse('restaurants:top10')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)

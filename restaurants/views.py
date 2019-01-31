@@ -19,3 +19,11 @@ class RandomRestaurantView(View):
             'name': restaurant.name,
             'borough': restaurant.borough.name,
         })
+
+
+class Top10RestaurantView(View):
+
+    def get(self, request):
+        return JsonResponse({
+            'results': [],
+        })
