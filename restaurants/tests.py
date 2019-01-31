@@ -20,7 +20,7 @@ class RandomRestaurantTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_random_restauran_endpoint_no_data_json_response(self):
+    def test_random_restaurant_endpoint_no_data_json_response(self):
         response = self.client.get(self.url)
 
         self.assertEqual(response.json(), {})
@@ -78,7 +78,7 @@ class RandomRestaurantTestCase(TestCase):
 
 class Top10RestaurantsTestCase(TestCase):
 
-    def test_random_restaurant_endpoint_returns_ok_status_code(self):
+    def test_top10_restaurant_endpoint_returns_ok_status_code(self):
         url = reverse('restaurants:top10')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
