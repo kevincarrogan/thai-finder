@@ -12,3 +12,10 @@ Finding a random restaurant to go to.
         "name": "AROY DEE THAI KITCHEN",
         "borough": "BRONX"
     }
+
+## Ideas
+
+### Libraries
+
+  - Django
+  - bonobo
