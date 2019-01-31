@@ -27,6 +27,12 @@ Finding a random restaurant to go to.
     $ pip install -r requirements.txt
     $ ./manage.py migrate
 
+## Tests
+
+Run tests using
+
+    $ ./manage.py test
+
 ## Ideas
 
 ### Libraries
