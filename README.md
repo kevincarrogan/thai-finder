@@ -13,9 +13,9 @@ Finding a random restaurant to go to.
         "borough": "BRONX"
     }
 
-Find top 10 restaurants by score filtered by cuisine and rating.
+Find top 10 restaurants by score filtered by cuisine and grade.
 
-    $ curl --header "Content-Type: application/json" http://localhost:8000/restaurants/top10/?cuisine=thai&rating=B
+    $ curl --header "Content-Type: application/json" http://localhost:8000/restaurants/top10/?cuisine=thai&grade=B
 
     {
         "results": [
