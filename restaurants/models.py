@@ -10,9 +10,15 @@ class Borough(models.Model):
     name = models.CharField(max_length=255)
 
 
+class Cuisine(models.Model):
+    name = models.CharField(max_length=255)
+
+
 class Restaurant(models.Model):
     objects = RestaurantQuerySet.as_manager()
 
     name = models.CharField(max_length=255)
     borough = models.ForeignKey(Borough)
+    cuisine = models.ForeignKey(Cuisine, null=True)
     score = models.IntegerField()
+    grade = models.CharField(max_length=1)

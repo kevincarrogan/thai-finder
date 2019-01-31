@@ -8,7 +8,7 @@ from mock import patch
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from models import Borough, Restaurant
+from models import Borough, Cuisine, Restaurant
 
 
 class RandomRestaurantTestCase(TestCase):
@@ -121,6 +121,59 @@ class Top10RestaurantsTestCase(TestCase):
                     {'name': 'Restaurant with score of 13', 'score': 13},
                     {'name': 'Restaurant with score of 12', 'score': 12},
                     {'name': 'Restaurant with score of 11', 'score': 11},
+                ]
+            },
+        )
+
+    def test_top10_restaurants_with_filters(self):
+        borough = Borough.objects.create(name='Bronx')
+        thai_cuisine = Cuisine.objects.create(name='Thai')
+        thai_restaurant = Restaurant.objects.create(
+            name='A Thai restaurant',
+            grade='A',
+            score=10,
+            cuisine=thai_cuisine,
+            borough=borough,
+        )
+
+        indian_cuisine = Cuisine.objects.create(name='Indian')
+        indian_restaurant = Restaurant.objects.create(
+            name='An Indian restaurant',
+            grade='B',
+            score=10,
+            cuisine=indian_cuisine,
+            borough=borough,
+        )
+
+        url = '{}?cuisine=Thai'.format(self.url)
+        response = self.client.get(url)
+        self.assertEqual(
+            response.json(),
+            {
+                'results': [
+                    {'name': 'A Thai restaurant', 'score': 10},
+                ]
+            },
+        )
+
+        url = '{}?cuisine=Indian'.format(self.url)
+        response = self.client.get(url)
+        self.assertEqual(
+            response.json(),
+            {
+                'results': [
+                    {'name': 'An Indian restaurant', 'score': 10},
+                ]
+            },
+        )
+
+        url = '{}?cuisine=Thai&grade=A'.format(self.url)
+        response = self.client.get(url)
+        self.assertEqual(
+            response.json(),
+            {
+                'results': [
+                    {'name': 'A Thai restaurant', 'score': 10},
                 ]
             },
         )
