@@ -11,7 +11,7 @@ class RandomRestaurantView(View):
     
     def get(self, request):
         try:
-            restaurant = Restaurant.objects.get()
+            restaurant = Restaurant.objects.random()
         except Restaurant.DoesNotExist:
             return JsonResponse({})
 

@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 import json
 
+from mock import patch
+
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -39,3 +41,36 @@ class RandomRestaurantTestCase(TestCase):
                 'borough': 'BRONX',
             },
         )
+
+    def test_random_restaurant_endpoint_returns_random_restaurant(self):
+        borough = Borough.objects.create(name='BRONX')
+        restaurant = Restaurant.objects.create(
+            borough=borough,
+            name='AROY DEE THAI KITCHEN',
+        )
+        other_restaurant = Restaurant.objects.create(
+            borough=borough,
+            name='Thai Cottage',
+        )
+
+        with patch('restaurants.views.Restaurant') as MockModel:
+            MockModel.objects.random.return_value = restaurant
+            response = self.client.get(self.url)
+            self.assertEqual(
+                response.json(),
+                {
+                    'name': 'AROY DEE THAI KITCHEN',
+                    'borough': 'BRONX',
+                },
+            )
+
+        with patch('restaurants.views.Restaurant') as MockModel:
+            MockModel.objects.random.return_value = other_restaurant
+            response = self.client.get(self.url)
+            self.assertEqual(
+                response.json(),
+                {
+                    'name': 'Thai Cottage',
+                    'borough': 'BRONX',
+                },
+            )
