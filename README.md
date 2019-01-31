@@ -6,7 +6,7 @@ Finds Thai restaurants for those that like their food to be of top quality in th
 
 Finding a random restaurant to go to.
 
-    $ curl --header "Content-Type: application/json" http://localhost:8000/restaurant/random/
+    $ curl --header "Content-Type: application/json" http://localhost:8000/restaurants/random/
 
     {
         "name": "AROY DEE THAI KITCHEN",
