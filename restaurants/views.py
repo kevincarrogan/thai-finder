@@ -36,7 +36,7 @@ class Top10RestaurantView(View):
             query_value = request.GET.get(key)
             if query_value:
                 try:
-                    object_to_filter_by = related_model_class.objects.get(name=query_value)
+                    object_to_filter_by = related_model_class.objects.get(name__iexact=query_value)
                 except related_model_class.DoesNotExist:
                     # If we can't find a lookup for our object we can just
                     # quickly return no results instead of trying more filters
@@ -47,8 +47,9 @@ class Top10RestaurantView(View):
         filter_keys = ['grade']
         for key in filter_keys:
             query_value = request.GET.get(key)
+            filter_key = '{}__iexact'.format(key)
             if query_value:
-                query_set = query_set.filter(**{key: query_value})
+                query_set = query_set.filter(**{filter_key: query_value})
 
         return query_set
 

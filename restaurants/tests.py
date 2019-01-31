@@ -197,3 +197,32 @@ class Top10RestaurantsTestCase(TestCase):
                 'results': [],
             },
         )
+
+    def test_top10_restaurants_keys_are_case_insensitive(self):
+        borough = Borough.objects.create(name='Bronx')
+        thai_cuisine = Cuisine.objects.create(name='Thai')
+        thai_restaurant = Restaurant.objects.create(
+            name='A Thai restaurant',
+            grade='A',
+            score=10,
+            cuisine=thai_cuisine,
+            borough=borough,
+        )
+
+        url = '{}?cuisine=thai'.format(self.url)
+        response = self.client.get(url)
+        self.assertEqual(
+            response.json(),
+            {
+                'results': [{'name': 'A Thai restaurant', 'score': 10}],
+            },
+        )
+
+        url = '{}?cuisine=THAI'.format(self.url)
+        response = self.client.get(url)
+        self.assertEqual(
+            response.json(),
+            {
+                'results': [{'name': 'A Thai restaurant', 'score': 10}],
+            },
+        )
