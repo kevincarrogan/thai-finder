@@ -15,3 +15,4 @@ class Restaurant(models.Model):
 
     name = models.CharField(max_length=255)
     borough = models.ForeignKey(Borough)
+    score = models.IntegerField()

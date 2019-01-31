@@ -24,6 +24,16 @@ class RandomRestaurantView(View):
 class Top10RestaurantView(View):
 
     def get(self, request):
+        results = []
+
+        top_10_restaurants = Restaurant.objects.order_by('-score')[:10]
+
+        for restaurant in top_10_restaurants:
+            results.append({
+                'name': restaurant.name,
+                'score': restaurant.score,
+            })
+
         return JsonResponse({
-            'results': [],
+            'results': results,
         })

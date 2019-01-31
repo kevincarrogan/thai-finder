@@ -30,6 +30,7 @@ class RandomRestaurantTestCase(TestCase):
         restaurant = Restaurant.objects.create(
             borough=borough,
             name='AROY DEE THAI KITCHEN',
+            score=0,
         )
 
         response = self.client.get(self.url)
@@ -47,10 +48,12 @@ class RandomRestaurantTestCase(TestCase):
         restaurant = Restaurant.objects.create(
             borough=borough,
             name='AROY DEE THAI KITCHEN',
+            score=0,
         )
         other_restaurant = Restaurant.objects.create(
             borough=borough,
             name='Thai Cottage',
+            score=0,
         )
 
         with patch('restaurants.views.Restaurant') as MockModel:
@@ -91,5 +94,33 @@ class Top10RestaurantsTestCase(TestCase):
             response.json(),
             {
                 'results': [],
+            },
+        )
+
+    def test_top10_restaurants_returns_results(self):
+        borough = Borough.objects.create(name='Bronx')
+        for i in range(1, 21):
+            Restaurant.objects.create(
+                borough=borough,
+                name='Restaurant with score of {}'.format(i),
+                score=i,
+            )
+
+        response = self.client.get(self.url)
+        self.assertEqual(
+            response.json(),
+            {
+                'results': [
+                    {'name': 'Restaurant with score of 20', 'score': 20},
+                    {'name': 'Restaurant with score of 19', 'score': 19},
+                    {'name': 'Restaurant with score of 18', 'score': 18},
+                    {'name': 'Restaurant with score of 17', 'score': 17},
+                    {'name': 'Restaurant with score of 16', 'score': 16},
+                    {'name': 'Restaurant with score of 15', 'score': 15},
+                    {'name': 'Restaurant with score of 14', 'score': 14},
+                    {'name': 'Restaurant with score of 13', 'score': 13},
+                    {'name': 'Restaurant with score of 12', 'score': 12},
+                    {'name': 'Restaurant with score of 11', 'score': 11},
+                ]
             },
         )
