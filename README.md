@@ -13,6 +13,20 @@ Finding a random restaurant to go to.
         "borough": "BRONX"
     }
 
+## Installation
+
+### Requirements
+
+  * Python 2.7
+  * pip
+
+### Local
+
+*Recommended to run in a [virtualenv](https://virtualenv.pypa.io/en/latest/)*
+
+    $ pip install -r requirements.txt
+    $ ./manage.py migrate
+
 ## Ideas
 
 ### Libraries
