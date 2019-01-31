@@ -177,3 +177,23 @@ class Top10RestaurantsTestCase(TestCase):
                 ]
             },
         )
+
+    def test_top10_restaurants_unknown_foreign_key_filter_returns_no_results(self):
+        borough = Borough.objects.create(name='Bronx')
+        thai_cuisine = Cuisine.objects.create(name='Thai')
+        thai_restaurant = Restaurant.objects.create(
+            name='A Thai restaurant',
+            grade='A',
+            score=10,
+            cuisine=thai_cuisine,
+            borough=borough,
+        )
+
+        url = '{}?cuisine=madeup'.format(self.url)
+        response = self.client.get(url)
+        self.assertEqual(
+            response.json(),
+            {
+                'results': [],
+            },
+        )

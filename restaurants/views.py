@@ -30,8 +30,12 @@ class Top10RestaurantView(View):
 
         cuisine_query = request.GET.get('cuisine')
         if cuisine_query:
-            cuisine_to_filter_by = Cuisine.objects.get(name=cuisine_query)
-            top_10_restaurants = top_10_restaurants.filter(cuisine=cuisine_to_filter_by)
+            try:
+                cuisine_to_filter_by = Cuisine.objects.get(name=cuisine_query)
+            except Cuisine.DoesNotExist:
+                top_10_restaurants = Restaurant.objects.none()
+            else:
+                top_10_restaurants = top_10_restaurants.filter(cuisine=cuisine_to_filter_by)
 
         grade_query = request.GET.get('grade')
         if grade_query:
