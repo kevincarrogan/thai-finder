@@ -14,11 +14,16 @@ def extract_csv_data(csv_file):
 
 
 def parse_csv_row(row):
+    try:
+        score = int(row[13])
+    except ValueError:
+        score = None
+
     return {
         'name': row[1].title(),
         'borough': row[2].title(),
         'cuisine': row[7].title(),
-        'score': int(row[13]),
+        'score': score,
         'grade': row[14],
     }
 

@@ -42,6 +42,20 @@ class ImportRestaurantDataTestCase(TestCase):
             }
         )
 
+    def test_parse_csv_row_with_no_score(self):
+        row = ['50054551', 'BURGER KING/POPEYES', 'BRONX', '217', 'E FORDHAM RD', '10458', '3473446815', 'Hamburgers', '10/17/2016', 'Violations were cited in the following area(s).', '08A', 'Facility not vermin proof. Harborage or conditions conducive to attracting vermin to the premises and/or allowing vermin to exist.', 'Not Critical', '', 'A', '10/17/2016', '01/30/2019', 'Pre-permit (Operational) / Initial Inspection']
+        parsed_row = parse_csv_row(row)
+        self.assertEqual(
+            parsed_row,
+            {
+                'grade': 'A',
+                'cuisine': 'Hamburgers',
+                'borough': 'Bronx',
+                'name': 'Burger King/Popeyes',
+                'score': None,
+            }
+        )
+
     def test_create_models(self):
         self.assertEqual(Borough.objects.count(), 0)
         self.assertEqual(Cuisine.objects.count(), 0)
