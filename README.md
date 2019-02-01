@@ -48,6 +48,14 @@ Find top 10 restaurants by score filtered by cuisine and grade.
     $ pip install -r requirements.txt
     $ ./manage.py migrate
 
+### Import data
+
+Data can be downloaded from https://data.cityofnewyork.us/api/views/43nn-pn8j/rows.csv?accessType=DOWNLOAD.
+
+To import the data run:
+
+    $ ./manage.py importrestaurantdata restaurants.csv
+
 ## Tests
 
 Run tests using
