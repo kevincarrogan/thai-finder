@@ -39,6 +39,7 @@ class ImportRestaurantDataTestCase(TestCase):
                 'borough': 'Bronx',
                 'name': 'Burger King/Popeyes',
                 'score': 12,
+                'camis': 50054551,
             }
         )
 
@@ -53,6 +54,7 @@ class ImportRestaurantDataTestCase(TestCase):
                 'borough': 'Bronx',
                 'name': 'Burger King/Popeyes',
                 'score': None,
+                'camis': 50054551,
             }
         )
 
@@ -67,12 +69,14 @@ class ImportRestaurantDataTestCase(TestCase):
             'borough': 'Bronx',
             'name': 'Burger King/Popeyes',
             'score': 12,
+            'camis': 50054551,
         }
-        restaurant = create_models(row)
+        restaurant, created = create_models(row)
 
         self.assertEqual(Borough.objects.count(), 1)
         self.assertEqual(Cuisine.objects.count(), 1)
         self.assertEqual(Restaurant.objects.count(), 1)
+        self.assertTrue(created)
 
         borough = Borough.objects.get()
         self.assertEqual(borough.name, 'Bronx')
@@ -96,15 +100,40 @@ class ImportRestaurantDataTestCase(TestCase):
             'borough': 'Bronx',
             'name': 'Burger King/Popeyes',
             'score': 12,
+            'camis': 50054551,
         }
-        restaurant = create_models(row)
+        restaurant, created = create_models(row)
 
         self.assertEqual(Borough.objects.count(), 1)
         self.assertEqual(Cuisine.objects.count(), 1)
         self.assertEqual(Restaurant.objects.count(), 1)
+        self.assertTrue(created)
 
         self.assertEqual(restaurant.name, 'Burger King/Popeyes')
         self.assertEqual(restaurant.grade, 'A')
         self.assertEqual(restaurant.score, 12)
         self.assertEqual(restaurant.borough, borough)
         self.assertEqual(restaurant.cuisine, cuisine)
+
+    def test_create_models_only_imports_restaurant_once(self):
+        borough = Borough.objects.create(name='Bronx')
+        cuisine = Cuisine.objects.create(name='Hamburgers')
+
+        self.assertEqual(Restaurant.objects.count(), 0)
+
+        row = {
+            'grade': 'A',
+            'cuisine': 'Hamburgers',
+            'borough': 'Bronx',
+            'name': 'Burger King/Popeyes',
+            'score': 12,
+            'camis': 50054551,
+        }
+        restaurant, created = create_models(row)
+        self.assertEqual(Restaurant.objects.count(), 1)
+        self.assertTrue(created)
+
+        should_be_same_restaurant, created = create_models(row)
+        self.assertEqual(Restaurant.objects.count(), 1)
+        self.assertEqual(restaurant, should_be_same_restaurant)
+        self.assertFalse(created)

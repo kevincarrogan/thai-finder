@@ -20,6 +20,7 @@ def parse_csv_row(row):
         score = None
 
     return {
+        'camis': int(row[0]),
         'name': row[1].title(),
         'borough': row[2].title(),
         'cuisine': row[7].title(),
@@ -32,12 +33,20 @@ def create_models(data):
     borough, _ = Borough.objects.get_or_create(name=data['borough'])
     cuisine, _ = Cuisine.objects.get_or_create(name=data['cuisine'])
 
-    data.update({
+    model_data = data.copy()
+
+    model_data.update({
         'borough': borough,
         'cuisine': cuisine,
     })
+    camis = model_data.pop('camis')
 
-    return Restaurant.objects.create(**data)
+    restaurant, created = Restaurant.objects.get_or_create(
+        camis=camis,
+        defaults=model_data,
+    )
+
+    return restaurant, created
 
 
 class Command(BaseCommand):
@@ -49,11 +58,17 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         file_path = os.path.join(os.getcwd(), options['filename'])
         saved_rows = 0
+        created_restaurants = 0
         with open(file_path, 'r') as csv_file:
             for num_rows, row in enumerate(extract_csv_data(csv_file)):
                 parsed_data = parse_csv_row(row)
                 saved_rows = num_rows
-                create_models(parsed_data)
+                _, created = create_models(parsed_data)
+                if created:
+                    created_restaurants += 1
         self.stdout.write(
-            self.style.SUCCESS('Imported {} rows successfully'.format(saved_rows + 1)),
+            self.style.SUCCESS('Imported {} rows successfully.'.format(saved_rows + 1)),
+        )
+        self.stdout.write(
+            self.style.SUCCESS('{} restaurants created.'.format(created_restaurants)),
         )

@@ -22,3 +22,4 @@ class Restaurant(models.Model):
     cuisine = models.ForeignKey(Cuisine, null=True)
     score = models.IntegerField(null=True)
     grade = models.CharField(max_length=1)
+    camis = models.IntegerField(unique=True)

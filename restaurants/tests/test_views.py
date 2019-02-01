@@ -31,6 +31,7 @@ class RandomRestaurantTestCase(TestCase):
             borough=borough,
             name='AROY DEE THAI KITCHEN',
             score=0,
+            camis=12345,
         )
 
         response = self.client.get(self.url)
@@ -49,11 +50,13 @@ class RandomRestaurantTestCase(TestCase):
             borough=borough,
             name='AROY DEE THAI KITCHEN',
             score=0,
+            camis=12345,
         )
         other_restaurant = Restaurant.objects.create(
             borough=borough,
             name='Thai Cottage',
             score=0,
+            camis=54321,
         )
 
         with patch('restaurants.views.Restaurant') as MockModel:
@@ -104,6 +107,7 @@ class Top10RestaurantsTestCase(TestCase):
                 borough=borough,
                 name='Restaurant with score of {}'.format(i),
                 score=i,
+                camis=i,
             )
 
         response = self.client.get(self.url)
@@ -134,6 +138,7 @@ class Top10RestaurantsTestCase(TestCase):
             score=10,
             cuisine=thai_cuisine,
             borough=borough,
+            camis=12345,
         )
 
         indian_cuisine = Cuisine.objects.create(name='Indian')
@@ -143,6 +148,7 @@ class Top10RestaurantsTestCase(TestCase):
             score=10,
             cuisine=indian_cuisine,
             borough=borough,
+            camis=54321,
         )
 
         url = '{}?cuisine=Thai'.format(self.url)
@@ -187,6 +193,7 @@ class Top10RestaurantsTestCase(TestCase):
             score=10,
             cuisine=thai_cuisine,
             borough=borough,
+            camis=12345,
         )
 
         url = '{}?cuisine=madeup'.format(self.url)
@@ -207,6 +214,7 @@ class Top10RestaurantsTestCase(TestCase):
             score=10,
             cuisine=thai_cuisine,
             borough=borough,
+            camis=12345,
         )
 
         url = '{}?cuisine=thai'.format(self.url)
