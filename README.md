@@ -56,6 +56,25 @@ To import the data run:
 
     $ ./manage.py importrestaurantdata restaurants.csv
 
+#### Querying the data
+
+This data can be queried directly in the database.
+
+For example, to find all Thai restaurants with a grade B rating ordered by score one could run:
+
+    SELECT
+        restaurants_restaurant.name, restaurants_borough.name
+    FROM
+        restaurants_restaurant
+    INNER JOIN
+        restaurants_borough ON restaurants_restaurant.borough_id = restaurants_borough.id
+    INNER JOIN
+        restaurants_cuisine ON restaurants_restaurant.cuisine_id = restaurants_cuisine.id
+    WHERE
+        restaurants_cuisine.name = 'Thai'
+    ORDER BY
+        restaurants_restaurant.score DESC
+
 ## Tests
 
 Run tests using
