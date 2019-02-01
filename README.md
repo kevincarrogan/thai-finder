@@ -81,6 +81,16 @@ Run tests using
 
     $ ./manage.py test
 
+## Schema
+
+![Schema](kevincarrogan.github.com/thai-finder/schema.png)
+
+The schema currently only breaks out the restaurant, cuisine and borough into separate tables/models.
+
+In future this will probably expand to include additional data relevant to the restaurant.
+
+The grade is also only recorded on the restaurant meaning that historical data isn't tracked. We may want to be able to model this and as such we would break this out into a separate table where we would record grades over time.
+
 ## Ideas
 
 ### Libraries
