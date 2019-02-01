@@ -83,7 +83,7 @@ Run tests using
 
 ## Schema
 
-![Schema](kevincarrogan.github.com/thai-finder/schema.png)
+![Schema](schema.png)
 
 The schema currently only breaks out the restaurant, cuisine and borough into separate tables/models.
 
