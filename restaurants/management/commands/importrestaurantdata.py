@@ -8,6 +8,8 @@ from restaurants.models import Borough, Cuisine, Restaurant
 
 
 def extract_csv_data(csv_file):
+    """Extracts csv data from a file skipping the first row
+    """
     reader = csv.reader(csv_file)
     reader.next()
     for row in reader:
@@ -15,6 +17,11 @@ def extract_csv_data(csv_file):
 
 
 def parse_csv_row(row):
+    """Parses a row from the CSV and outputs a dictionary of this data.
+
+    The data is cleaned making it acceptable to generate models in a later
+    step.
+    """
     try:
         score = int(row[13])
     except ValueError:
@@ -35,6 +42,15 @@ def parse_csv_row(row):
 
 
 def create_models(data):
+    """Creates models for Borough, Cuisine and Restaurant from already cleaned data.
+
+    This function expects the data to have been validated, cleaned and normalised
+    in a previous step.
+
+    Will create the models handling any possible duplication.
+
+    The grade for a restaurant will be updated if necessary.
+    """
     borough, _ = Borough.objects.get_or_create(name=data['borough'])
     cuisine, _ = Cuisine.objects.get_or_create(name=data['cuisine'])
 
