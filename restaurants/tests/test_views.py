@@ -8,7 +8,7 @@ from mock import patch
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from models import Borough, Cuisine, Restaurant
+from restaurants.models import Borough, Cuisine, Restaurant
 
 
 class RandomRestaurantTestCase(TestCase):
