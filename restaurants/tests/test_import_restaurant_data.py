@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import csv
+import datetime
 
 from StringIO import StringIO
 
@@ -35,6 +36,7 @@ class ImportRestaurantDataTestCase(TestCase):
             parsed_row,
             {
                 'grade': 'A',
+                'rating_date': datetime.date(2019, 1, 30),
                 'cuisine': 'Hamburgers',
                 'borough': 'Bronx',
                 'name': 'Burger King/Popeyes',
@@ -50,6 +52,7 @@ class ImportRestaurantDataTestCase(TestCase):
             parsed_row,
             {
                 'grade': 'A',
+                'rating_date': datetime.date(2019, 1, 30),
                 'cuisine': 'Hamburgers',
                 'borough': 'Bronx',
                 'name': 'Burger King/Popeyes',
@@ -70,6 +73,7 @@ class ImportRestaurantDataTestCase(TestCase):
             'name': 'Burger King/Popeyes',
             'score': 12,
             'camis': 50054551,
+            'rating_date': datetime.date(2019, 1, 1),
         }
         restaurant, created = create_models(row)
 
@@ -101,6 +105,7 @@ class ImportRestaurantDataTestCase(TestCase):
             'name': 'Burger King/Popeyes',
             'score': 12,
             'camis': 50054551,
+            'rating_date': datetime.date(2019, 1, 1),
         }
         restaurant, created = create_models(row)
 
@@ -128,6 +133,7 @@ class ImportRestaurantDataTestCase(TestCase):
             'name': 'Burger King/Popeyes',
             'score': 12,
             'camis': 50054551,
+            'rating_date': datetime.date(2019, 1, 1)
         }
         restaurant, created = create_models(row)
         self.assertEqual(Restaurant.objects.count(), 1)
@@ -137,3 +143,46 @@ class ImportRestaurantDataTestCase(TestCase):
         self.assertEqual(Restaurant.objects.count(), 1)
         self.assertEqual(restaurant, should_be_same_restaurant)
         self.assertFalse(created)
+
+    def test_only_latest_grade_is_saved_against_model(self):
+        borough = Borough.objects.create(name='Bronx')
+        cuisine = Cuisine.objects.create(name='Hamburgers')
+
+        row = {
+            'grade': 'A',
+            'rating_date': datetime.date(2019, 2, 1),
+            'cuisine': 'Hamburgers',
+            'borough': 'Bronx',
+            'name': 'Burger King/Popeyes',
+            'score': 12,
+            'camis': 50054551,
+        }
+        restaurant, _ = create_models(row)
+        self.assertEqual(restaurant.grade, 'A')
+        self.assertEqual(restaurant.rating_date, datetime.date(2019, 2, 1))
+
+        row = {
+            'grade': 'C',
+            'rating_date': datetime.date(2019, 1, 1),
+            'cuisine': 'Hamburgers',
+            'borough': 'Bronx',
+            'name': 'Burger King/Popeyes',
+            'score': 12,
+            'camis': 50054551,
+        }
+        restaurant, _ = create_models(row)
+        self.assertEqual(restaurant.grade, 'A')
+        self.assertEqual(restaurant.rating_date, datetime.date(2019, 2, 1))
+
+        row = {
+            'grade': 'B',
+            'rating_date': datetime.date(2019, 3, 1),
+            'cuisine': 'Hambugers',
+            'borough': 'Bronx',
+            'name': 'Burger King/Popeyes',
+            'score': 12,
+            'camis': 50054551,
+        }
+        restaurant, _ = create_models(row)
+        self.assertEqual(restaurant.grade, 'B')
+        self.assertEqual(restaurant.rating_date, datetime.date(2019, 3, 1))

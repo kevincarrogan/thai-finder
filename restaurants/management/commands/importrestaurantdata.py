@@ -1,4 +1,5 @@
 import csv
+import datetime
 import os
 
 from django.core.management.base import BaseCommand
@@ -19,6 +20,9 @@ def parse_csv_row(row):
     except ValueError:
         score = None
 
+    month, day, year = [int(x) for x in row[16].split('/')]
+    rating_date = datetime.date(year, month, day)
+
     return {
         'camis': int(row[0]),
         'name': row[1].title(),
@@ -26,6 +30,7 @@ def parse_csv_row(row):
         'cuisine': row[7].title(),
         'score': score,
         'grade': row[14],
+        'rating_date': rating_date,
     }
 
 
@@ -45,6 +50,14 @@ def create_models(data):
         camis=camis,
         defaults=model_data,
     )
+
+    if not created:
+        grade = model_data['grade']
+        rating_date = model_data['rating_date']
+        if restaurant.rating_date is None or (rating_date and rating_date > restaurant.rating_date):
+            restaurant.grade = grade
+            restaurant.rating_date = rating_date
+            restaurant.save()
 
     return restaurant, created
 
