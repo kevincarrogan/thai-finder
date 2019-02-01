@@ -91,9 +91,10 @@ In future this will probably expand to include additional data relevant to the r
 
 The grade is also only recorded on the restaurant meaning that historical data isn't tracked. We may want to be able to model this and as such we would break this out into a separate table where we would record grades over time.
 
-## Ideas
+Currently the latest grade is recorded due to the current requirements for the project.
 
-### Libraries
+## Future work
 
-  - Django
-  - bonobo
+Split out grade into a separate table tracking historical grade data. This would allow for more interesting queries of a restaurants quality over time.
+
+Use an ETL library, such as bonobo, for importing the data. This should allow us to run the process in parallel (it's currently a long linear process) as well as allowing the way the data is imported to be changed easily.
