@@ -12,7 +12,7 @@ def extract_csv_data(csv_file):
     """Extracts csv data from a file skipping the first row
     """
     reader = csv.reader(csv_file)
-    reader.next()
+    next(reader)
     for row in reader:
         yield row
 

@@ -18,8 +18,8 @@ class Restaurant(models.Model):
     objects = RestaurantQuerySet.as_manager()
 
     name = models.CharField(max_length=255)
-    borough = models.ForeignKey(Borough)
-    cuisine = models.ForeignKey(Cuisine, null=True)
+    borough = models.ForeignKey(Borough, on_delete=models.PROTECT)
+    cuisine = models.ForeignKey(Cuisine, on_delete=models.SET_NULL, null=True)
     score = models.IntegerField(null=True)
     grade = models.CharField(null=True, max_length=1)
     rating_date = models.DateField(null=True)

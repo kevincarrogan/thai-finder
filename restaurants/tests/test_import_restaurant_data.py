@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import csv
 import datetime
 
-from StringIO import StringIO
+from io import StringIO
 
 from django.test import TestCase
 
