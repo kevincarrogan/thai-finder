@@ -88,6 +88,7 @@ The project is configured to deploy to Heroku.
 Before deploying the application the following steps need to be made:
 
     $ heroku config:set DISABLE_COLLECTSTATIC=1
+    $ heroku config:set ENVIRONMENT='PROD'
 
 ## Schema
 
