@@ -109,3 +109,5 @@ Currently the latest grade is recorded due to the current requirements for the p
 Split out grade into a separate table tracking historical grade data. This would allow for more interesting queries of a restaurants quality over time.
 
 Use an ETL library, such as bonobo, for importing the data. This should allow us to run the process in parallel (it's currently a long linear process) as well as allowing the way the data is imported to be changed easily.
+
+Upgrade to Django 2.x. Depending on the nature of the project this may want to wait until a version of Django 2.x is in LTS or if the production envorinment no longer supports Python 2.7.
