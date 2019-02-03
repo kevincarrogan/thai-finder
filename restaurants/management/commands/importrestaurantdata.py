@@ -30,13 +30,17 @@ def parse_csv_row(row):
     month, day, year = [int(x) for x in row[16].split('/')]
     rating_date = datetime.date(year, month, day)
 
+    grade = row[14]
+    if grade not in ['A', 'B', 'C', 'G', 'P', 'Z']:
+        grade = None
+
     return {
         'camis': int(row[0]),
         'name': row[1].title(),
         'borough': row[2].title(),
         'cuisine': row[7].title(),
         'score': score,
-        'grade': row[14],
+        'grade': grade,
         'rating_date': rating_date,
     }
 
