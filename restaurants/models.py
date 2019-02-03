@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-from querysets import RestaurantQuerySet
+from .querysets import RestaurantQuerySet
 
 
 class Borough(models.Model):
