@@ -12,6 +12,6 @@ DATABASES = {
     'default': dj_database_url.config()
 }
 try:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ['SECRET_KEY']
 except KeyError:
     raise ImproperlyConfigured('Secret key environment variable required on production.')
