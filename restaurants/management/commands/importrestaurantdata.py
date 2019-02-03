@@ -3,6 +3,7 @@ import datetime
 import os
 
 from django.core.management.base import BaseCommand
+from django.db.utils import DataError
 
 from restaurants.models import Borough, Cuisine, Restaurant
 
@@ -96,7 +97,12 @@ class Command(BaseCommand):
             for num_rows, row in enumerate(extract_csv_data(csv_file)):
                 parsed_data = parse_csv_row(row)
                 saved_rows = num_rows
-                _, created = create_models(parsed_data)
+                try:
+                    _, created = create_models(parsed_data)
+                except DataError:
+                    self.stdout.write(
+                        self.style.ERROR('Failed to import {}'.format(parsed_data)),
+                    )
                 if created:
                     created_restaurants += 1
         self.stdout.write(
