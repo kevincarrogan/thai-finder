@@ -89,6 +89,7 @@ Before deploying the application the following steps need to be made:
 
     $ heroku config:set DISABLE_COLLECTSTATIC=1
     $ heroku config:set ENVIRONMENT='PROD'
+    $ heroku run "wget -O restaurants.csv https://data.cityofnewyork.us/api/views/43nn-pn8j/rows.csv\?accessType\=DOWNLOAD && python manage.py importrestaurantdata restaurants.csv"
 
 ## Schema
 
