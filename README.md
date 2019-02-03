@@ -81,6 +81,14 @@ Run tests using
 
     $ ./manage.py test
 
+## Deployment
+
+The project is configured to deploy to Heroku.
+
+Before deploying the application the following steps need to be made:
+
+    $ heroku config:set DISABLE_COLLECTSTATIC=1
+
 ## Schema
 
 ![Schema](schema.png)
