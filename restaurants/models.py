@@ -21,6 +21,6 @@ class Restaurant(models.Model):
     borough = models.ForeignKey(Borough)
     cuisine = models.ForeignKey(Cuisine, null=True)
     score = models.IntegerField(null=True)
-    grade = models.CharField(max_length=1)
+    grade = models.CharField(null=True, max_length=1)
     rating_date = models.DateField(null=True)
     camis = models.IntegerField(unique=True)
