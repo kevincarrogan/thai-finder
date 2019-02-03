@@ -6,7 +6,7 @@ Finds Thai restaurants for those that like their food to be of top quality in th
 
 Finding a random restaurant to go to.
 
-    $ curl --header "Content-Type: application/json" http://localhost:8000/restaurants/random/
+    $ curl --header "Content-Type: application/json" https://thai-finder.herokuapp.com/restaurants/random/
 
     {
         "name": "AROY DEE THAI KITCHEN",
@@ -15,7 +15,7 @@ Finding a random restaurant to go to.
 
 Find top 10 restaurants by score filtered by cuisine and grade.
 
-    $ curl --header "Content-Type: application/json" http://localhost:8000/restaurants/top10/?cuisine=thai&grade=B
+    $ curl --header "Content-Type: application/json" https://thai-finder.herokuapp.com/restaurants/top10/?cuisine=thai&grade=B
 
     {
         "results": [
